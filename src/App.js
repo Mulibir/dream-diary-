@@ -14,6 +14,7 @@ const App = () => {
     title: '',
     content: '',
     date: new Date().toISOString().split('T')[0],
+    time: '',
     tags: '',
     mood: 'neutral',
     type: 'dream'
@@ -108,6 +109,7 @@ const App = () => {
       title: '',
       content: '',
       date: new Date().toISOString().split('T')[0],
+      time: '',
       tags: '',
       mood: 'neutral',
       type: activeTab === 'dreams' ? 'dream' : 'event'
@@ -401,7 +403,15 @@ const App = () => {
                     required
                   />
                 </div>
-                
+                <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
+            <input
+              type="time"
+              value={formData.time}
+              onChange={(e) => setFormData({...formData, time: e.target.value})}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+          </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Mood</label>
                   <select
