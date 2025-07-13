@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Star, Calendar, Plus, Search, BarChart3, Download, Upload, Trash2, Edit, Save, X, Link as LinkIcon } from 'lucide-react'; // Import LinkIcon for connections
+import { Moon, Star, Calendar, Plus, Search, BarChart3, Download, Upload, Trash2, Edit, Save, X, Link as LinkIcon } from 'lucide-react';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('dreams');
   const [dreams, setDreams] = useState([]);
   const [lifeEvents, setLifeEvents] = useState([]);
   const [connections, setConnections] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // This is for the main search bar
+
   const [showAddForm, setShowAddForm] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -19,14 +20,18 @@ const App = () => {
     notes: ''
   });
 
+  // NEW STATE FOR DREAM SEARCH IN CONNECTION FORM
+  const [dreamSearchTermForConnection, setDreamSearchTermForConnection] = useState('');
+
+
   const [formData, setFormData] = useState({
     title: '',
     content: '',
     date: new Date().toISOString().split('T')[0],
-    time: '', // Added time field
+    time: '',
     mood: 'neutral',
-    tags: '', // Tags as a comma-separated string for input
-    type: 'dream' // Will be set based on activeTab when opening the form
+    tags: '',
+    type: 'dream'
   });
 
   // PWA Manifest setup (kept as is)
@@ -35,7 +40,7 @@ const App = () => {
       "name": "Dream Diary & Life Tracker",
       "short_name": "Dream Diary",
       "icons": [{
-        "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjI0IiBmaWxsPSIjNjM2NkYxIi8+CjxzdmcgeD0iNDgiIHk9IjQ4IiB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8cGF0aCBkPSJtMTIgMy0xLjkxMiA1LjgxM2EyIDIgMCAwIDEtMS4wOTUgMS4wOTVMMzAxMiA4LjkwNSAxMy4wOTJhMiAyIDAgMCAxIDEuMDk1IDEuMDk1TDEyIDIxbDEuOTEyLTUuODEzYTIgMiAwIDAgMSAxLjA5NS0xLjA5NUwyMSAxMi0xNS4wOTUgMTAuOTA4YTIgMiAwIDAgMS0xLjA5NS0xLjA5NUwxMiAzeiIvPgo8cGF0aCBkPSJNMjIgMkwyIDVMMjIgMkwyIDNMMjIgMjJWMzwiLz4KPHBhdGggZD0iTTIgMlYzIi8+CjxwYXRoIGQ9Im0yMiAyMnYtMyIvPgo8cGF0aCBkPSJtMiAyMnYtMyIvPgo8L3N2Zz4KPC9zdmc+",
+        "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjI0IiBmaWxsPSIjNjM2NkYxIi8+CjxzdmcgeD0iNDgiIHk9IjQ4IiB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8cGF0aCBkPSJtMTIgMy0xLjkxMiA1LjgxM2EyIDIgMCAwIDEtMS4wOTUgMS4wOTVMMzAxMiA4LjkwNSAxMy4wOTJhMiAyIDAgMCAxIDEuMDk1IDEuMDk1TDEyIDIxbDEuOTEyLTUuODEzYTIgMiAwIDAgMSAxLjA5NS0xLjA5NUwyMSAxMi0xNS4wOTUgMTAuOTA4YTIyIDIgMCAwIDEtMS4wOTUtMS4wOTVMMTIgM3oiLz4KPHBhdGggZD0iTTIgMlYzIi8+CjxwYXRoIGQ9Im0yMiAyMnYzIi8+CjxwYXRoIGQ9Imm2MiAyMnYtMyIvPgo8cGF0aCBkPSJtMiAyMnYtMyIvPgo8L3N2Zz4KPC9zdmc+",
         "sizes": "192x192",
         "type": "image/svg+xml"
       }],
@@ -88,14 +93,15 @@ const App = () => {
       title: '',
       content: '',
       date: new Date().toISOString().split('T')[0],
-      time: '', // Reset time
+      time: '',
       mood: 'neutral',
       tags: '',
-      type: type // Set type based on which button was clicked
+      type: type
     });
     setEditingId(null);
     setShowAddForm(true);
-    setShowStats(false); // Hide stats if showing
+    setShowStats(false);
+    setShowConnectionForm(false);
   };
 
   const handleSubmit = () => {
@@ -107,7 +113,7 @@ const App = () => {
     const newEntry = {
       id: editingId || Date.now(),
       ...formData,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''), // Split tags
+      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
       createdAt: editingId ? undefined : new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -115,13 +121,13 @@ const App = () => {
     if (editingId) {
       if (formData.type === 'dream') {
         setDreams(prev => prev.map(d => d.id === editingId ? newEntry : d));
-      } else { // type is 'event'
+      } else {
         setLifeEvents(prev => prev.map(e => e.id === editingId ? newEntry : e));
       }
     } else {
       if (formData.type === 'dream') {
         setDreams(prev => [...prev, newEntry]);
-      } else { // type is 'event'
+      } else {
         setLifeEvents(prev => [...prev, newEntry]);
       }
     }
@@ -137,7 +143,7 @@ const App = () => {
       time: '',
       mood: 'neutral',
       tags: '',
-      type: 'dream' // Default back to dream type
+      type: 'dream'
     });
     setShowAddForm(false);
     setEditingId(null);
@@ -146,23 +152,21 @@ const App = () => {
   const handleEdit = (entry) => {
     setFormData({
       ...entry,
-      tags: entry.tags ? entry.tags.join(', ') : '', // Join tags back to string for editing
-      type: entry.type || (activeTab === 'dreams' ? 'dream' : 'event') // Ensure type is correctly set for editing
+      tags: entry.tags ? entry.tags.join(', ') : '',
+      type: entry.type || (activeTab === 'dreams' ? 'dream' : 'event')
     });
     setEditingId(entry.id);
     setShowAddForm(true);
-    setShowStats(false); // Hide stats if showing
+    setShowStats(false);
   };
 
   const handleDelete = (id, type) => {
     if (window.confirm('Are you sure you want to delete this entry?')) {
       if (type === 'dream') {
         setDreams(prev => prev.filter(d => d.id !== id));
-        // Also remove any connections involving this dream
         setConnections(prev => prev.filter(conn => conn.dreamId !== id));
-      } else { // type === 'event'
+      } else {
         setLifeEvents(prev => prev.filter(e => e.id !== id));
-        // Also remove any connections involving this event
         setConnections(prev => prev.filter(conn => conn.lifeEventId !== id));
       }
     }
@@ -174,7 +178,7 @@ const App = () => {
       lifeEvents,
       connections,
       exportDate: new Date().toISOString(),
-      version: '1.1' // Updated version to reflect new fields
+      version: '1.1'
     };
 
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -278,7 +282,9 @@ const App = () => {
       lifeEventId: '',
       notes: ''
     });
+    setDreamSearchTermForConnection(''); // RESET SEARCH TERM
     setShowConnectionForm(false);
+    setShowAddForm(false);
   };
 
   const handleDeleteConnection = (id) => {
@@ -293,6 +299,16 @@ const App = () => {
     return { dream, event };
   };
 
+  // NEW FILTERED DREAMS FOR CONNECTION DROPDOWN
+const filteredDreamsForConnection = dreams.filter(dream => {
+  const lowerSearchTerm = dreamSearchTermForConnection.toLowerCase();
+  const titleMatch = dream.title.toLowerCase().includes(lowerSearchTerm);
+  const contentMatch = dream.content.toLowerCase().includes(lowerSearchTerm);
+  const tagsMatch = dream.tags && Array.isArray(dream.tags) && dream.tags.some(tag => tag.toLowerCase().includes(dreamSearchTermForConnection.toLowerCase()));
+  
+  return titleMatch || contentMatch || tagsMatch;
+});
+  console.log('Filtered Dreams for Connection:', filteredDreamsForConnection);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -357,18 +373,18 @@ const App = () => {
               />
             </div>
           </div>
-          {activeTab !== 'connections' && ( // Only show "Add Dream/Event" button if not on connections tab
+          {activeTab !== 'connections' && (
             <button
-              onClick={() => handleOpenAddForm(activeTab === 'dreams' ? 'dream' : 'event')}
+              onClick={() => {handleOpenAddForm(activeTab === 'dreams' ? 'dream' : 'event'); setShowConnectionForm(false); setShowStats(false); }} 
               className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add {activeTab === 'dreams' ? 'Dream' : 'Event'}
             </button>
           )}
-          {activeTab === 'connections' && ( // Show "Add Connection" button only on connections tab
+          {activeTab === 'connections' && (
             <button
-              onClick={() => setShowConnectionForm(true)}
+              onClick={() => { setShowConnectionForm(true); setDreamSearchTermForConnection('');setShowAddForm(false); setShowStats(false);}} // Reset search term when opening form
               className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
             >
               <Plus className="w-4 h-4 mr-2" />
@@ -376,7 +392,7 @@ const App = () => {
             </button>
           )}
           <button
-            onClick={() => { setShowStats(!showStats); setShowAddForm(false); setShowConnectionForm(false); }} // Hide other forms when showing stats
+            onClick={() => { setShowStats(!showStats); setShowAddForm(false); setShowConnectionForm(false); }}
             className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             <BarChart3 className="w-4 h-4 mr-2" />
@@ -489,7 +505,7 @@ const App = () => {
                   />
                 </div>
 
-                {formData.type === 'dream' && ( // Only show time for dreams
+                {formData.type === 'dream' && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Time (Optional)</label>
                     <input
@@ -562,18 +578,43 @@ const App = () => {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Select Dream</label>
-                <select
-                  value={connectionFormData.dreamId}
-                  onChange={(e) => setConnectionFormData({ ...connectionFormData, dreamId: Number(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                >
-                  <option value="">-- Select a Dream --</option>
-                  {dreams.map(dream => (
-                    <option key={dream.id} value={dream.id}>{dream.title} ({new Date(dream.date).toLocaleDateString()})</option>
-                  ))}
-                </select>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Search Dreams</label> {/* NEW SEARCH INPUT */}
+                <input
+                  type="text"
+                  placeholder="Type to search dreams..."
+                  value={dreamSearchTermForConnection}
+                onChange={(e) => {
+                setDreamSearchTermForConnection(e.target.value);
+                setConnectionFormData({...connectionFormData, dreamId: ''});
+                console.log('Search term updated to:', e.target.value);
+              }}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 mb-2"
+              />              
+{filteredDreamsForConnection.length > 0 ? (
+  <select
+    key={`select-${dreamSearchTermForConnection}-${filteredDreamsForConnection.length}`}
+    value={connectionFormData.dreamId || ''}
+    onChange={(e) => setConnectionFormData({ ...connectionFormData, dreamId: Number(e.target.value) })}
+    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+  >
+    <option value="">-- Select a Dream --</option>
+    {filteredDreamsForConnection.map(dream => (
+      <option key={`${dream.id}-${dreamSearchTermForConnection}`} value={dream.id}>
+        {dream.title} ({new Date(dream.date).toLocaleDateString()})
+      </option>
+    ))}
+  </select>
+) : (
+  <select
+    disabled
+    className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
+  >
+    <option>No dreams match your search</option>
+  </select>
+)}
                 {dreams.length === 0 && <p className="text-sm text-red-500 mt-1">No dreams available. Add dreams first.</p>}
+                {dreams.length > 0 && filteredDreamsForConnection.length === 0 && dreamSearchTermForConnection !== '' &&
+                  <p className="text-sm text-gray-500 mt-1">No dreams found matching your search.</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Select Life Event</label>
@@ -621,33 +662,48 @@ const App = () => {
         {/* Entries List */}
         <div className="space-y-4">
           {activeTab === 'connections' ? (
-            connections.length === 0 ? (
+            connections.length === 0 && lifeEvents.length === 0 && dreams.length === 0 ? ( // Adjusted empty state message
               <div className="bg-white rounded-lg shadow-md p-8 text-center">
                 <LinkIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-gray-700 mb-2">No Connections Yet</h3>
                 <p className="text-gray-500 mb-4">
-                  Connect your dreams with significant life events to find patterns and insights.
+                  Add some dreams and life events first, then connect them here to find patterns and insights.
                 </p>
                 <button
-                  onClick={() => setShowConnectionForm(true)}
+                  onClick={() => { setActiveTab('dreams'); setShowAddForm(true); }} // Direct to add dream
                   className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors mx-auto"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Create Your First Connection
+                  Add Your First Dream
                 </button>
               </div>
+            ) : connections.length === 0 ? (
+                <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                    <LinkIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-700 mb-2">No Connections Yet</h3>
+                    <p className="text-gray-500 mb-4">
+                        You have dreams and life events! Now, connect them to find patterns.
+                    </p>
+                    <button
+                        onClick={() => setShowConnectionForm(true)}
+                        className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors mx-auto"
+                    >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create Your First Connection
+                    </button>
+                </div>
             ) : (
-              connections.filter(conn => { // Filter connections by search term
+              connections.filter(conn => {
                 const { dream, event } = getConnectedEntryDetails(conn);
                 const searchText = searchTerm.toLowerCase();
                 return (
-                  (dream && (dream.title.toLowerCase().includes(searchText) || dream.content.toLowerCase().includes(searchText))) ||
-                  (event && (event.title.toLowerCase().includes(searchText) || event.content.toLowerCase().includes(searchText))) ||
+                  (dream && (dream.title.toLowerCase().includes(searchText) || dream.content.toLowerCase().includes(searchText) || (dream.tags && Array.isArray(dream.tags) && dream.tags.some(tag => tag.toLowerCase().includes(searchText))))) ||
+                  (event && (event.title.toLowerCase().includes(searchText) || event.content.toLowerCase().includes(searchText) || (event.tags && Array.isArray(event.tags) && event.tags.some(tag => tag.toLowerCase().includes(searchText))))) ||
                   (conn.notes && conn.notes.toLowerCase().includes(searchText))
                 );
               }).map((connection) => {
                 const { dream, event } = getConnectedEntryDetails(connection);
-                if (!dream || !event) return null; // Don't render if either linked entry is missing
+                if (!dream || !event) return null;
 
                 return (
                   <div key={connection.id} className="bg-white rounded-lg shadow-md p-6">
@@ -727,7 +783,7 @@ const App = () => {
                         <h3 className="text-lg font-semibold text-gray-800">{entry.title}</h3>
                         <p className="text-sm text-gray-500">
                           {new Date(entry.date).toLocaleDateString()}
-                          {entry.time && ` @ ${entry.time}`} {/* Display time if available */}
+                          {entry.time && ` @ ${entry.time}`}
                           {' • '}
                           {entry.mood}
                         </p>
