@@ -1,25 +1,21 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Dream Diary",
+  "name": "Dream Diary & Life Tracker",
+  "description": "Track your dreams and life events to discover meaningful connections",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM2MzY2RjEiLz4KPHN2ZyB4PSI0OCIgeT0iNDgiIHdpZHRoPSI5NiIgaGVpZ2h0PSI5NiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CjxwYXRoIGQ9Im0xMiAzLTEuOTEyIDUuODEzYTIgMiAwIDAgMS0xLjA5NSAxLjA5NUwzIDEyIDguOTA1IDEzLjA5MmEyIDIgMCAwIDEgMS4wOTUgMS4wOTVMMTIgMjFsMS45MTItNS44MTNhMiAyIDAgMCAxIDEuMDk1LTEuMDk1TDIxIDEyLTE1LjA5NSAxMC45MDhhMiAyIDAgMCAxLTEuMDk1LTEuMDk1TDEyIDN6Ii8+CjxwYXRoIGQ9Ik0yIDJ2MyIvPgo8cGF0aCBkPSJtMjIgMnYzIi8+CjxwYXRoIGQ9Im0yMiAyMnYtMyIvPgo8cGF0aCBkPSJtMiAyMnYtMyIvPgo8L3N2Zz4KPC9zdmc+",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiM2MzY2RjEiLz4KPHN2ZyB4PSIxMjgiIHk9IjEyOCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgo8cGF0aCBkPSJtMTIgMy0xLjkxMiA1LjgxM2EyIDIgMCAwIDEtMS4wOTUgMS4wOTVMMyAxMiA4LjkwNSAxMy4wOTJhMiAyIDAgMCAxIDEuMDk1IDEuMDk1TDEyIDIxbDEuOTEyLTUuODEzYTIgMiAwIDAgMSAxLjA5NS0xLjA5NUwyMSAxMi0xNS4wOTUgMTAuOTA4YTIgMiAwIDAgMS0xLjA5NS0xLjA5NUwxMiAzeiIvPgo8cGF0aCBkPSJNMiAydjMiLz4KPHBhdGggZD0ibTIyIDJ2MyIvPgo8cGF0aCBkPSJtMjIgMjJ2LTMiLz4KPHBhdGggZD0ibTIgMjJ2LTMiLz4KPC9zdmc+",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#6366F1",
+  "background_color": "#F9FAFB"
 }
