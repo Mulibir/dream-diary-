@@ -272,7 +272,17 @@ const App = () => {
             </div>
           </div>
           <button
-            onClick={() => setShowAddForm(true)}
+            onClick={() => {
+  setFormData({
+    title: '',
+    content: '',
+    date: new Date().toISOString().split('T')[0],
+    tags: '',
+    mood: 'neutral',
+    type: activeTab === 'dreams' ? 'dream' : 'event'
+  });
+  setShowAddForm(true);
+}}
             className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -461,7 +471,17 @@ const App = () => {
                     Start by recording your dreams and life events to discover meaningful connections.
                   </p>
                   <button
-                    onClick={() => setShowAddForm(true)}
+                    onClick={() => {
+  setFormData({
+    title: '',
+    content: '',
+    date: new Date().toISOString().split('T')[0],
+    tags: '',
+    mood: 'neutral',
+    type: activeTab === 'dreams' ? 'dream' : 'event'
+  });
+  setShowAddForm(true);
+}}
                     className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors mx-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
