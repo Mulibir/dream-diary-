@@ -14,7 +14,6 @@ const App = () => {
     title: '',
     content: '',
     date: new Date().toISOString().split('T')[0],
-    time: '',
     tags: '',
     mood: 'neutral',
     type: 'dream'
@@ -109,7 +108,6 @@ const App = () => {
       title: '',
       content: '',
       date: new Date().toISOString().split('T')[0],
-      time: '',
       tags: '',
       mood: 'neutral',
       type: activeTab === 'dreams' ? 'dream' : 'event'
@@ -274,17 +272,7 @@ const App = () => {
             </div>
           </div>
           <button
-            onClick={() => {
-  setFormData({
-    title: '',
-    content: '',
-    date: new Date().toISOString().split('T')[0],
-    tags: '',
-    mood: 'neutral',
-    type: activeTab === 'dreams' ? 'dream' : 'event'
-  });
-  setShowAddForm(true);
-}}
+            onClick={() => setShowAddForm(true)}
             className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -403,15 +391,7 @@ const App = () => {
                     required
                   />
                 </div>
-                <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Time</label>
-            <input
-              type="time"
-              value={formData.time}
-              onChange={(e) => setFormData({...formData, time: e.target.value})}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-          </div>
+                
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Mood</label>
                   <select
@@ -481,17 +461,7 @@ const App = () => {
                     Start by recording your dreams and life events to discover meaningful connections.
                   </p>
                   <button
-                    onClick={() => {
-  setFormData({
-    title: '',
-    content: '',
-    date: new Date().toISOString().split('T')[0],
-    tags: '',
-    mood: 'neutral',
-    type: activeTab === 'dreams' ? 'dream' : 'event'
-  });
-  setShowAddForm(true);
-}}
+                    onClick={() => setShowAddForm(true)}
                     className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors mx-auto"
                   >
                     <Plus className="w-4 h-4 mr-2" />
