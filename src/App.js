@@ -14,7 +14,6 @@ const App = () => {
     title: '',
     content: '',
     date: new Date().toISOString().split('T')[0],
-    tags: '',
     mood: 'neutral',
     type: 'dream'
   });
@@ -81,7 +80,7 @@ const App = () => {
     const newEntry = {
       id: editingId || Date.now(),
       ...formData,
-      tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      tags: [],
       createdAt: editingId ? undefined : new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
@@ -108,7 +107,6 @@ const App = () => {
       title: '',
       content: '',
       date: new Date().toISOString().split('T')[0],
-      tags: '',
       mood: 'neutral',
       type: activeTab === 'dreams' ? 'dream' : 'event'
     });
@@ -119,7 +117,7 @@ const App = () => {
   const handleEdit = (entry) => {
     setFormData({
       ...entry,
-      tags: entry.tags.join(', '),
+      tags: entry.tags ? entry.tags.join(', ') : '',
       type: entry.type || (activeTab === 'dreams' ? 'dream' : 'event')
     });
     setEditingId(entry.id);
@@ -175,7 +173,7 @@ const App = () => {
     return entries.filter(entry => 
       entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       entry.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      entry.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      (entry.tags && entry.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())))
     );
   };
 
@@ -407,17 +405,6 @@ const App = () => {
                     <option value="peaceful">Peaceful</option>
                   </select>
                 </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tags (comma-separated)</label>
-                <input
-                  type="text"
-                  value={formData.tags}
-                  onChange={(e) => setFormData({...formData, tags: e.target.value})}
-                  placeholder="lucid, flying, work, family"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                />
               </div>
               
               <div className="flex gap-2">
